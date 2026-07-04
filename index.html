@@ -446,7 +446,7 @@ svarFelt.addEventListener('keydown', e => { if (e.key === "Enter") sjekkSvar(); 
 
 async function sjekkSvar() {
   if (await sha256(svarFelt.value) !== CONFIG.svarHash) {
-    status.textContent = "Det stemmer ikke helt – banken krever riktig svar 🤨";
+    status.textContent = "Det stemmer ikke helt – banken krever riktig svar 🤨, reload siden og prøv igjen";
     svarFelt.select();
     return;
   }
