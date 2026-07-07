@@ -5,25 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bryllupssjekk</title>
 <!-- ================================================================
-     BRYLLUPSSJEKK – innstillinger
-     1) Fyll inn verdiene under (behold anførselstegn og komma).
+     BRYLLUPSSJEKK – med portvakt
+     Hele sjekken er skjult til sikkerhetsspørsmålet er riktig besvart.
+     1) Fyll inn CONFIG (behold anførselstegn og komma).
      2) Publiser, og åpne siden med ?lag-hash=svaret bakerst i
-        adressen for å få hashen til svarHash. Lim inn og publiser
-        på nytt. Eksempel:
-        https://allsaid.github.io/Bryllupssjekken/?lag-hash=paris
+        adressen for å få hashen. Lim inn i svarHash og publiser igjen.
+        Eksempel: https://allsaid.github.io/Bryllupssjekken/?lag-hash=paris
+     Tom svarHash = ingen portvakt (greit under testing).
      ================================================================ -->
 <script>
 const CONFIG = {
   mottaker: "Marie & Christian",
   belop: "2 000",
   valuta: "kr",
-  avsender: "Said, June & Sara",                      // ditt navn / dere som gir
-  dato: "11.07.2026",                    // bryllupsdatoen
-  melding: "Gratulerer med dagen!",      // memo-linjen på sjekken
+  avsender: "Said, June & Sara",
+  dato: "11.07.2026",
+  melding: "Gratulerer med bryllupsdagen!",
   ntfyTopic: "bryllupssjekken-oiri975A",
-  fallbackTlf: "",            // ditt nummer (SMS-reserve). Tom streng "" for å skjule.
-  sporsmal: "Feriested i Danmark hvor mini-golf rekorder ble satt",  // spørsmål bare brudeparet kan
-  svarHash: "fcbcf88b06f7c55a333516d73ba293efe8975729354de1747254852e918cc5cd"                           // limes inn fra ?lag-hash – tom = ingen sjekk
+  fallbackTlf: "+47XXXXXXXX",            // ditt nummer (SMS-reserve). Tom streng "" for å skjule.
+  sporsmal: "Feriested i Danmark hvor Mini-Golf Rekorder ble satt",
+  svarHash: "fcbcf88b06f7c55a333516d73ba293efe8975729354de1747254852e918cc5cd"                           // limes inn fra ?lag-hash
 };
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,6 +78,65 @@ const CONFIG = {
     font-size: clamp(28px, 6vw, 42px);
     font-weight: 600;
     font-style: italic;
+  }
+
+  /* ------------------ Portvakt ------------------ */
+  .portvakt {
+    background: var(--papir);
+    border: 1px solid var(--papir-kant);
+    border-radius: 6px;
+    padding: 34px 30px;
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+    animation: land 0.9s cubic-bezier(.2,.8,.25,1) both;
+  }
+  .portvakt .eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gull);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .portvakt h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--blekk);
+    margin-bottom: 6px;
+  }
+  .portvakt .forklaring {
+    font-size: 17px;
+    font-style: italic;
+    color: var(--blekk-lys);
+    margin-bottom: 20px;
+  }
+  .portvakt p.sporsmal-tekst {
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .portvakt input {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    padding: 11px 16px;
+    border: 1.5px solid var(--blekk-lys);
+    border-radius: 999px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    background: #fff;
+    color: var(--tekst);
+    margin-bottom: 14px;
+  }
+  .portvakt input:focus-visible { outline: 3px solid var(--gull); }
+  .portvakt .feil {
+    color: var(--stempel);
+    font-size: 17px;
+    min-height: 24px;
+    margin-top: 10px;
   }
 
   /* ------------------ Sjekken ------------------ */
@@ -245,7 +305,7 @@ const CONFIG = {
     100% { opacity: 0.9; transform: translate(-50%,-50%) rotate(-12deg) scale(1); }
   }
 
-  /* ------------------ Knapp, sikkerhetsspørsmål og status ------------------ */
+  /* ------------------ Knapper og status ------------------ */
   .handling { margin-top: 30px; text-align: center; width: 100%; max-width: 620px; }
 
   button.innlos {
@@ -267,49 +327,6 @@ const CONFIG = {
   button.innlos:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
   button.innlos:disabled { opacity: 0.55; cursor: default; transform: none; }
 
-  .sporsmal {
-    margin-top: 20px;
-    color: #e9e2cf;
-    animation: tone 0.4s ease both;
-  }
-  @keyframes tone {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .sporsmal .eyebrow {
-    font-family: 'Courier Prime', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gull);
-    display: block;
-    margin-bottom: 6px;
-  }
-  .sporsmal p {
-    font-size: 21px;
-    font-style: italic;
-    margin-bottom: 12px;
-  }
-  .sporsmal .felt-rad {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .sporsmal input {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    padding: 11px 16px;
-    border: none;
-    border-radius: 999px;
-    width: min(300px, 70vw);
-    text-align: center;
-    background: var(--papir);
-    color: var(--tekst);
-  }
-  .sporsmal input:focus-visible { outline: 3px solid var(--gull); }
-  button.innlos.liten { font-size: 18px; padding: 11px 28px; }
-
   .status {
     margin-top: 18px;
     color: #e9e2cf;
@@ -324,8 +341,10 @@ const CONFIG = {
     z-index: 50;
   }
 
+  [hidden] { display: none !important; }
+
   @media (prefers-reduced-motion: reduce) {
-    .sjekk, .sporsmal { animation: none; }
+    .sjekk, .portvakt { animation: none; }
     .stempel.vis { animation: none; opacity: 0.9; transform: translate(-50%,-50%) rotate(-12deg) scale(1); }
   }
 
@@ -343,10 +362,24 @@ const CONFIG = {
 
 <div class="intro">
   <span class="eyebrow">Til brudeparet</span>
-  <h1>En sjekk til å innløse</h1>
+  <h1 id="introTittel">Hvem der?</h1>
 </div>
 
-<div class="sjekk-wrap">
+<!-- ------------------ PORTVAKT (vises først) ------------------ -->
+<div class="portvakt" id="portvakt">
+  <span class="eyebrow">Sikkerhetskontroll</span>
+  <h2>Denne sjekken er personlig</h2>
+  <p class="forklaring">Bare brudeparet kan låse den opp. Bevis hvem dere er:</p>
+  <p class="sporsmal-tekst" id="sporsmalTekst"></p>
+  <input type="text" id="svarFelt" placeholder="Svar her" autocomplete="off" autocapitalize="off">
+  <div>
+    <button class="innlos" id="svarKnapp">Lås opp</button>
+  </div>
+  <p class="feil" id="feilTekst"></p>
+</div>
+
+<!-- ------------------ SJEKKEN (skjult til riktig svar) ------------------ -->
+<div class="sjekk-wrap" id="sjekkWrap" hidden>
   <div class="sjekk" id="sjekk">
     <div class="sjekk-topp">
       <div class="bank-navn">
@@ -389,18 +422,8 @@ const CONFIG = {
   </div>
 </div>
 
-<div class="handling">
+<div class="handling" id="handling" hidden>
   <button class="innlos" id="knapp">Innløs sjekken</button>
-
-  <div class="sporsmal" id="sporsmalBoks" hidden>
-    <span class="eyebrow">Sikkerhetskontroll</span>
-    <p id="sporsmalTekst"></p>
-    <div class="felt-rad">
-      <input type="text" id="svarFelt" placeholder="Svar her" autocomplete="off">
-      <button class="innlos liten" id="svarKnapp">Svar</button>
-    </div>
-  </div>
-
   <div class="status" id="status"></div>
 </div>
 
@@ -414,6 +437,7 @@ document.getElementById('belopBoks').textContent = CONFIG.belop + " " + CONFIG.v
 document.getElementById('melding').textContent = CONFIG.melding;
 document.getElementById('avsender').textContent = CONFIG.avsender;
 document.getElementById('dato').textContent = CONFIG.dato;
+document.getElementById('sporsmalTekst').textContent = CONFIG.sporsmal;
 
 // ---------- Hash-hjelpere ----------
 async function sha256(tekst) {
@@ -426,36 +450,42 @@ async function sha256(tekst) {
 const lagHash = new URLSearchParams(location.search).get("lag-hash");
 if (lagHash) sha256(lagHash).then(h => prompt("Lim denne inn som svarHash i CONFIG:", h));
 
-// ---------- Innløsning med sikkerhetsspørsmål ----------
-const knapp = document.getElementById('knapp');
-const status = document.getElementById('status');
-const stempel = document.getElementById('stempel');
-const sporsmalBoks = document.getElementById('sporsmalBoks');
+// ---------- Portvakt ----------
+const portvakt = document.getElementById('portvakt');
+const sjekkWrap = document.getElementById('sjekkWrap');
+const handling = document.getElementById('handling');
 const svarFelt = document.getElementById('svarFelt');
+const feilTekst = document.getElementById('feilTekst');
+const introTittel = document.getElementById('introTittel');
 
-knapp.addEventListener('click', () => {
-  if (!CONFIG.svarHash) { innlos(); return; }   // ingen hash satt = hopp over spørsmålet
-  knapp.hidden = true;
-  document.getElementById('sporsmalTekst').textContent = CONFIG.sporsmal;
-  sporsmalBoks.hidden = false;
-  svarFelt.focus();
-});
+function visSjekken() {
+  portvakt.hidden = true;
+  introTittel.textContent = "En sjekk til å innløse";
+  sjekkWrap.hidden = false;
+  handling.hidden = false;
+}
 
-document.getElementById('svarKnapp').addEventListener('click', sjekkSvar);
-svarFelt.addEventListener('keydown', e => { if (e.key === "Enter") sjekkSvar(); });
+// Ingen hash satt = ingen portvakt (praktisk under testing)
+if (!CONFIG.svarHash) visSjekken();
 
-async function sjekkSvar() {
+async function provSvar() {
   if (await sha256(svarFelt.value) !== CONFIG.svarHash) {
-    status.textContent = "Det stemmer ikke helt – banken krever riktig svar 🤨, reload siden og prøv igjen";
+    feilTekst.textContent = "Ikke helt – banken slipper deg ikke inn 🤨";
     svarFelt.select();
     return;
   }
-  sporsmalBoks.hidden = true;
-  status.textContent = "";
-  innlos();
+  visSjekken();
 }
 
-async function innlos() {
+document.getElementById('svarKnapp').addEventListener('click', provSvar);
+svarFelt.addEventListener('keydown', e => { if (e.key === "Enter") provSvar(); });
+
+// ---------- Innløsning ----------
+const knapp = document.getElementById('knapp');
+const status = document.getElementById('status');
+const stempel = document.getElementById('stempel');
+
+knapp.addEventListener('click', async () => {
   knapp.disabled = true;
   status.textContent = "Sender bud til banken…";
 
@@ -486,9 +516,9 @@ async function innlos() {
     status.innerHTML = "Banken sover visst – si ifra til giveren, så ordner det seg 📨";
   }
   skytKonfetti();
-}
+});
 
-// ---------- Konfetti (uten eksterne biblioteker) ----------
+// ---------- Konfetti ----------
 function skytKonfetti() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
